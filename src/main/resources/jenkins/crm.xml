@@ -1,0 +1,102 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?><flow-definition plugin="workflow-job@1316.vd2290d3341a_f">
+    <actions>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2144.v077a_d1928a_40"/>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2144.v077a_d1928a_40">
+            <jobProperties/>
+            <triggers/>
+            <parameters>
+                <string>CLIENT_SECRET</string>
+                <string>DATABASE_NAME</string>
+                <string>SQL_NAME</string>
+                <string>CLIENT_ID</string>
+                <string>BUSINESS_NAME</string>
+                <string>BUSINESS_TYPE</string>
+                <string>TOMCAT_DIR</string>
+                <string>SQL_PASSWORD</string>
+            </parameters>
+            <options/>
+        </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+    </actions>
+    <description/>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.StringParameterDefinition>
+                    <name>DATABASE_NAME</name>
+                    <defaultValue>testDB</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>BUSINESS_NAME</name>
+                    <defaultValue>multi-purpose-war</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>BUSINESS_TYPE</name>
+                    <defaultValue>crm</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>SQL_NAME</name>
+                    <defaultValue>root</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>SQL_PASSWORD</name>
+                    <defaultValue>password</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>TOMCAT_DIR</name>
+                    <defaultValue>tomcat</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>CLIENT_ID</name>
+                    <defaultValue>clientId</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>CLIENT_SECRET</name>
+                    <defaultValue>clientSecret</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+    </properties>
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3732.vb_77c00a_57e12">
+        <script>
+            pipeline {
+            agent any
+            parameters {
+            string(name: 'DATABASE_NAME', defaultValue: 'testDB')
+            string(name: 'BUSINESS_NAME', defaultValue: 'multi-purpose-war')
+            string(name: 'BUSINESS_TYPE', defaultValue: 'crm')
+            string(name: 'SQL_NAME', defaultValue: 'root')
+            string(name: 'SQL_PASSWORD', defaultValue: 'password')
+            string(name: 'TOMCAT_DIR', defaultValue: 'tomcat')
+            string(name: 'CLIENT_ID', defaultValue: 'clientId')
+            string(name: 'CLIENT_SECRET', defaultValue: 'clientSecret')
+            }
+            stages {
+            stage('Build') {
+            steps {
+            git branch:'master', url: 'https://github.com/wp-ahmed/${BUSINESS_TYPE}.git'
+            bat "mvn clean install -Preplace-placeholder -DDatabase=$DATABASE_NAME -DBusiness=$BUSINESS_NAME -DSqlName=$SQL_NAME -DSqlPassword=$SQL_PASSWORD -DTomcatDir=\"${TOMCAT_DIR}\" -DClientId=\"${CLIENT_ID}\" -DClientSecret=$CLIENT_SECRET"
+            }
+            }
+            stage('Deploy to server') {
+            steps {
+            bat "xcopy /Y /s \"${WORKSPACE}\\target\\%BUSINESS_NAME%.war\" \"${TOMCAT_DIR}\\webapps\""
+            }
+            }
+            }
+            }
+        </script>
+        <sandbox>true</sandbox>
+    </definition>
+    <triggers/>
+    <authToken>1171d2a6b4dd660671a457a222243f6c23</authToken>
+    <disabled>false</disabled>
+</flow-definition>
