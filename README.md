@@ -48,6 +48,7 @@ spring.sql.init.mode=always
 jenkins.username=yourusername
 jenkins.token=yourtoken
 jenkins.host=http://localhost:9090/
+```
 
 ## Usage
 
