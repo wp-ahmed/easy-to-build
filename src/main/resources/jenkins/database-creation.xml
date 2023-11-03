@@ -1,0 +1,65 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?><flow-definition plugin="workflow-job@1316.vd2290d3341a_f">
+    <actions>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2144.v077a_d1928a_40"/>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2144.v077a_d1928a_40">
+            <jobProperties/>
+            <triggers/>
+            <parameters>
+                <string>DATABASE_NAME</string>
+                <string>SQL_NAME</string>
+                <string>SQL_PASSWORD</string>
+            </parameters>
+            <options/>
+        </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+    </actions>
+    <description/>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.StringParameterDefinition>
+                    <name>DATABASE_NAME</name>
+                    <defaultValue>testDB</defaultValue>
+                    <trim>false</trim>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.PasswordParameterDefinition>
+                    <name>SQL_PASSWORD</name>
+                    <defaultValue>{AQAAABAAAAAQNxZF+eXFz+GMSf5wHWVPx3NL12eWQ0ZiD01iCFpRtvA=}</defaultValue>
+                </hudson.model.PasswordParameterDefinition>
+                <hudson.model.PasswordParameterDefinition>
+                    <name>SQL_NAME</name>
+                    <defaultValue>{AQAAABAAAAAQTnK8u+Lhv0wr0e3Am1AdIkpJapExnNAfCTPIGedKZYw=}</defaultValue>
+                </hudson.model.PasswordParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+    </properties>
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3732.vb_77c00a_57e12">
+        <script>
+          pipeline {
+            agent any
+
+              parameters {
+              string(name: 'DATABASE_NAME', defaultValue: 'testDB')
+              password(name: 'SQL_NAME', defaultValue: 'root')
+              password(name: 'SQL_PASSWORD', defaultValue: 'password')
+              }
+            stages{
+              stage('Create Database') {
+              steps {
+              maskPasswords(varMaskRegexes:[] , varPasswordPairs: [[password: '%SQL_PASSWORD%', var: 'SQL_PASSWORD'],
+              [password: '%SQL_NAME%', var: 'SQL_NAME']]) {
+              bat '''
+              mysql -u%SQL_NAME% -p%SQL_PASSWORD% -e"CREATE DATABASE IF NOT EXISTS %DATABASE_NAME%"
+              '''
+              }
+              }
+              }
+            }
+          }
+        </script>
+        <sandbox>true</sandbox>
+    </definition>
+    <triggers/>
+    <authToken>1171d2a6b4dd660671a457a222243f6c23</authToken>
+    <disabled>false</disabled>
+</flow-definition>
