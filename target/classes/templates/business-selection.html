@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Build your business</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/CSS/bootstrap.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/CSS/animate.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/CSS/select2.min.css}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" th:href="@{/CSS/util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/CSS/main.css}">
+    <!--===============================================================================================-->
+</head>
+<body>
+    <div class="container-fluid bg-g1 size1 flex-w flex-col-c-sb" style="justify-content: unset;">
+        <h3 class="l1-txt1 txt-center p-b-10">
+            Build your business
+        </h3>
+        <div class="row mt-3">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <div class="col ">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active flex-c-m s1-txt4 size3 trans-04 where1" id="pills-home-tab" data-bs-toggle="pill" data-business="crm" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">CRM</button>
+                    </li>
+                </div>
+                <div class="col">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link flex-c-m s1-txt4 size3 trans-04 where1" id="pills-profile-tab" data-bs-toggle="pill" data-business="ecommerce" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">E-commerce</button>
+                    </li>
+                </div>
+                <div class="col">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link flex-c-m s1-txt4 size3 trans-04 where1" id="pills-contact-tab" data-business="landing" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Landing page</button>
+                    </li>
+                </div>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <form th:action="@{/save-business}" method="post" th:object="${business}" style="width:100%">
+                        <div class="form-group">
+                            <label for="businessName">Business Name</label>
+                            <input type="text" name="businessName"  th:field="*{businessName}" class="form-control" id="businessName" aria-describedby="emailHelp" placeholder="Enter your business name">
+                            <span class="text-danger font-weight-bold" th:if="${#fields.hasErrors('businessName')}" th:errors="*{businessName}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="tomcatDir">Tomcat Directory</label>
+                            <input type="text" name="tomcatDir"  th:field="*{tomcatDir}" class="form-control" id="tomcatDir" aria-describedby="emailHelp" placeholder="ex: C:\Program Files\Apache Software Foundation\Tomcat 10.1">
+                            <span class="text-danger font-weight-bold" th:if="${#fields.hasErrors('tomcatDir')}" th:errors="*{tomcatDir}"></span>
+                            <span class="text-danger font-weight-bold" th:if="${tomcatError}" th:text="${tomcatError}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="databaseName">Database Name</label>
+                            <input type="text" name="databaseName"  th:field="*{databaseName}" class="form-control" id="databaseName" aria-describedby="emailHelp" placeholder="Enter your database name">
+                            <span class="text-danger font-weight-bold" th:if="${#fields.hasErrors('databaseName')}" th:errors="*{databaseName}"></span>
+                            <div class="input-group" th:if="${#fields.hasGlobalErrors()}">
+                                <span th:each="error : ${#fields.globalErrors}">
+                                    <span th:if="${error.contains('Database and Business name')}" class="text-danger font-weight-bold" th:text="${error}"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="databaseName">Database Url</label>
+                            <input type="text" name="databaseUrl"  th:field="*{databaseUrl}" class="form-control" id="databaseUrl" aria-describedby="emailHelp" placeholder="ex: localhost:3306">
+                            <span class="text-danger font-weight-bold" th:if="${#fields.hasErrors('databaseUrl')}" th:errors="*{databaseUrl}"></span>
+                            <span class="text-danger font-weight-bold" th:if="${connectionError}" th:text="${connectionError}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="databaseUsername">Database Username</label>
+                            <input type="text" name="databaseUsername"  th:field="*{databaseUsername}" class="form-control" id="databaseUsername" aria-describedby="emailHelp" placeholder="Enter your database username">
+                            <span class="text-danger font-weight-bold" th:if="${#fields.hasErrors('databaseUsername')}" th:errors="*{databaseUsername}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="databasePassword">Database Password</label>
+                            <input type="password" name="databasePassword"  th:field="*{databasePassword}" class="form-control" id="databasePassword" aria-describedby="emailHelp" placeholder="Enter your database password">
+                            <span class="text-danger font-weight-bold" th:if="${#fields.hasErrors('databasePassword')}" th:errors="*{databasePassword}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="googleClientId">Google Client ID</label>
+                            <input type="text" name="googleClientId"  th:field="*{googleClientId}" class="form-control" id="googleClientId" aria-describedby="emailHelp" placeholder="Enter your Google client ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="googleClientSecret">Google Client Secret</label>
+                            <input type="text" name="googleClientSecret"  th:field="*{googleClientSecret}" class="form-control" id="googleClientSecret" aria-describedby="emailHelp" placeholder="Enter your Google client secret">
+                        </div>
+                        <input type="hidden" name="businessType" id="businessType" th:value="crm">
+                        <button type="submit" class="flex-c-m s1-txt4 size3 how-btn trans-04 where1">Submit</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <h3 class="l1-txt1 txt-center p-b-10">
+                        Coming soon
+                    </h3>
+                </div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                    <h3 class="l1-txt1 txt-center p-b-10">
+                        Coming soon
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/JS/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/JS/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/JS/business.js}"></script>
+</body>
+</html>
