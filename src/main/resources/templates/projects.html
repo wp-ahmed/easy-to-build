@@ -35,7 +35,7 @@
         <tbody>
         <tr th:if="${businesses != null}" th:each="business : ${businesses}">
             <td th:text="${business.businessId}"></td>
-            <td><a th:href="${home + 'show-details/'+business.businessName}" th:text="${business.businessName}"></a></td>
+            <td><a th:href="${home + 'show-details?businessName='+business.businessName}" th:text="${business.businessName}"></a></td>
             <td th:text="${business.businessType}"></td>
             <td th:text="${business.databaseName}"></td>
             <td th:text="${business.tomcatDir}"></td>
