@@ -23,15 +23,44 @@ List all the prerequisites required to install and run the project. For example:
 - MySQL
 - Tomcat 10.1
 - Jenkins (for automated deployment)
+- **Optional:** Google Client ID and Secret (for additional authentication features)
 
 ## Installation
 
 1. Clone the repository: `git clone <repository-url>`
 2. Configure the MySQL database by updating the `application.properties` file with the appropriate database connection credentials.
 3. **Replace all placeholder credentials in `application.properties` and `README.md`**: Ensure that you replace the placeholder credentials with your actual database credentials, Jenkins username, token, and host information. Failure to do so may result in connection issues and deployment failures.
-4. Build the project using Maven or your preferred build tool: `mvn clean install`
-5. Deploy the project on Tomcat by copying the generated WAR file to the Tomcat webapps directory.
-6. Start Tomcat and make sure it is running on `localhost:8080`.
+4. **Set up the necessary Google API credentials for Google integration:**
+    - Go to the [Google Cloud Console](https://console.cloud.google.com/).
+    - Create a new project or select an existing project.
+    - Enable the necessary APIs for your project (e.g., Google Drive, Gmail, Calendar).
+    - In the project dashboard, navigate to the **Credentials** section.
+    - Click on **Create Credentials** and select **OAuth client ID**.
+    - Configure the OAuth consent screen with the required information.
+    - Choose the application type as **Web application**.
+    - Add the authorized redirect URIs in the **Authorized redirect URIs** section. For example:
+        - `http://localhost:8080/login/oauth2/code/google`
+        - `http://localhost:8080/employee/settings/handle-granted-access`
+        Replace `localhost:8080` with the base URL of your CRM application.
+    - Complete the setup and note down the **Client ID** and **Client Secret**.
+5. **Modify the Google API scopes for accessing Google services**:
+    
+    While setting up the Google API credentials, you need to add the required scopes to define the level of access the application has to your Google account. The required scopes depend on the specific features you want to use. Here are the scopes for common Google services:
+    
+    - Google Drive: `https://www.googleapis.com/auth/drive`
+    - Gmail: `https://www.googleapis.com/auth/gmail.readonly`
+    - Google Calendar: `https://www.googleapis.com/auth/calendar`
+        
+        During the setup of your Google credentials, find the section to add the API scopes and include the scopes relevant to the features you intend to use.
+        
+        [![non-sensitive scopes](https://github.com/wp-ahmed/crm/assets/54330098/f1bc7026-591a-4d40-affa-e038e29591b2)](https://github.com/wp-ahmed/crm/assets/54330098/f1bc7026-591a-4d40-affa-e038e29591b2)
+
+        ![sensitive scopes](https://github.com/wp-ahmed/crm/assets/54330098/14d82922-0904-45d0-9874-da18c90fb352)
+
+        ![restricted scopes](https://github.com/wp-ahmed/crm/assets/54330098/b76a5cf8-c342-42e9-9848-6d0844f83575)
+6. Build the project using Maven or your preferred build tool: `mvn clean install`
+7. Deploy the project on Tomcat by copying the generated WAR file to the Tomcat webapps directory.
+8. Start Tomcat and make sure it is running on `localhost:8080`.
 
 ## Application Properties
 
