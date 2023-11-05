@@ -89,6 +89,17 @@ jenkins.host=http://localhost:9090/
 6. Select the CRM category, and the CRM application will be installed automatically.
 7. Access the CRM application using `localhost:8080/your-business-name`, where `your-business-name` refers to the information you registered earlier as your business name.
 
+## Screenshots
+
+![register](https://github.com/wp-ahmed/easy-to-build/assets/54330098/1b8c99dd-1ff4-42ea-bbd5-9bd443b1c275)
+![login](https://github.com/wp-ahmed/easy-to-build/assets/54330098/c5e7a05a-197f-4095-8e18-c4bc56c05466)
+![build your buisness](https://github.com/wp-ahmed/easy-to-build/assets/54330098/2287fd56-3048-4f06-8052-266e1040d35b)
+![edit your business](https://github.com/wp-ahmed/easy-to-build/assets/54330098/12b023cf-9c26-46c9-b6d0-8b72366ebb28)
+![show details](https://github.com/wp-ahmed/easy-to-build/assets/54330098/c29204f6-15d7-4d43-bf20-6eea7341ec4e)
+![Loading for building your business](https://github.com/wp-ahmed/easy-to-build/assets/54330098/bbc838f6-6764-4f08-926f-4e457f9e18a6)
+![success page](https://github.com/wp-ahmed/easy-to-build/assets/54330098/ca651bf3-ec7a-4102-b82a-351ba2b24714)
+
+
 ## License
 
 Feel free to customize and expand upon the sections mentioned above to best fit your project's needs. Including clear instructions and explanations will help users understand and use your project successfully.
